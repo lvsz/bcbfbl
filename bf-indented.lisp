@@ -22,7 +22,7 @@
       (#\> (! (incf f)))
       (#\+ (! (incf (aref b f))))
       (#\- (! (decf (aref b f))))
-      (#\, (! (setf (aref b f) (char-code (read-char)))))
+      (#\, (! (setf (aref b f) (char-code (read-char '() '() #\U0)))))
       (#\. (! (princ (code-char (?)))
               (force-output)))
       (#\[ (cons (f) (f)))
