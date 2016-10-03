@@ -9,10 +9,11 @@
   (defun b (f)
     (mapc #'(lambda(f)
               (typecase f
-                (function f (funcall f))
-                (cons (if (> (?) 0)
-                        (b f)))
-                (null (exit))))
+                (function
+                  (funcall f))
+                (cons
+                  (if (> (?) 0)
+                    (b f)))))
           f)
     (if (> (?) 0)
       (b f)))
