@@ -1,10 +1,10 @@
-FLAGS = --noinform --quit
-STACK = --control-stack-size 512 # in megabytes
+FLAGS = --noinform --non-interactive
+STACK = --control-stack-size 512
 
 bf: bf.lisp
 	sbcl $(FLAGS) --eval '(compile-file #p"$<" :output-file "$@")'
 	mv $@.fasl $@
-	perl -i -pe 's/(--script)/$(STACK) \1/' $@
+	perl -i -pe 's|^(#!/.+)--|\1$(STACK) --|' $@
 	chmod +x $@
 
 .PHONY: core
