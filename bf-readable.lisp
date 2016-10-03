@@ -1,0 +1,50 @@
+(let ((tape (make-array 30000))
+      (pointer 0)
+      (source-file (open (cadr *posix-argv*))))
+
+  (defun current ()
+    (aref tape pointer))
+
+  (defun eval-cmd (cmd)
+    (typecase cmd
+      (function
+        (funcall cmd))
+      (cons
+        (unless (zerop (current))
+          (eval-bf cmd)))))
+
+  (defun eval-bf (commands)
+    (mapc #'eval-cmd commands)
+    (unless (zerop (current))
+      (eval-bf commands)))
+
+  (defun read-source ()
+    (case (read-char source-file nil :eof)
+      (#\< (cons (lambda ()
+                   (decf pointer))
+                 (read-source)))
+      (#\> (cons (lambda ()
+                   (incf pointer))
+                 (read-source)))
+      (#\+ (cons (lambda ()
+                   (incf (aref tape pointer)))
+                 (read-source)))
+      (#\- (cons (lambda ()
+                   (decf (aref tape pointer)))
+                 (read-source)))
+      (#\. (cons (lambda ()
+                   (princ (code-char (current)))
+                   (force-output))
+                 (read-source)))
+      (#\, (cons (lambda ()
+                   (setf (aref tape pointer)
+                         (char-code (read-char nil nil #\Nul))))
+                 (read-source)))
+      (#\[ (cons (read-source)
+                 (read-source)))
+      (#\] '())
+      (:eof (cons #'exit '()))
+      (t (read-source))))
+
+  (eval-bf (read-source)))
+
