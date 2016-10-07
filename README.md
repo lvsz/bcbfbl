@@ -1,5 +1,5 @@
 ## About BCBFBL
-Bussiness BrainFuck Based on Lisp lists is a brainfuck interpreter written in Common Lisp, and inspired by Krzysztof Gabis' [Business Card Brainfuck](https://github.com/kgabis/business-card-brainfuck).  
+Business BrainFuck Based on Lisp lists is a brainfuck interpreter written in Common Lisp, and inspired by Krzysztof Gabis' [Business Card Brainfuck](https://github.com/kgabis/business-card-brainfuck).  
 What's unique about it, is the way it interprets brainfuck commands, more specifically `[` and `]`. All brainfuck compilers and interpreters I've seen so far either backtrack or jump to the matching bracket. Instead, BCBFBL transforms brainfuck code to nested lists of lambdas, which recursively get mapped with `funcall`, this can make it slightly faster for certain programs – like [the Mandelbrot set](http://esoteric.sange.fi/brainfuck/utils/mandelbrot/mandelbrot.b) – than other non-optimizing interpreters.  
 Another thing common in brainfuck interpreters, is that they limit both tape and cell sizes, which means they're actually finite state machines. BCBFBL on the other hand has unbounded cell sizes, making it a true Turing tarpit.
 
@@ -30,6 +30,9 @@ To create a standalone binary:
 ```
 $ make core
 ```
-Though this isn't recommended, as the resulting executable will be around 50 MB in size due to including the entire SBCL core.
+Though this isn't recommended, as the resulting executable will be around 50 MB in size due to including the entire SBCL runtime.
 
-
+## Limitations
+BCBFBL should work for any brainfuck program that doesn't rely on cell wrap or negative tape indices.  
+Output happens through UTF-8 code points, rather than bytes. This means that if you want to print a multibyte character like `€`, you need to use `.` once on a value of 8364, instead of thrice on the values 226, 130, and 172. This has no effect on programs that only print ASCII characters.  
+The default stack size is 512 MB, if this is inadequate, you can adjust the `STACK` variable in the make file.
