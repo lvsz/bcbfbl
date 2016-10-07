@@ -20,15 +20,16 @@ There are two other versions included that are semantically identical, but easie
 
 ## Usage
 ```
-$ make
-$ ./bf tests/hello-word.b
-$ ./bf tests/cat.b < bf.lisp
+make
+./bf tests/hello-world.b
+./bf tests/cat.b < bf.lisp
 ```
 This assumes you have [SBCL](http://www.sbcl.org) installed, and compiles to bytecode by default.  
-Making BCBFBL work with a different Common Lisp implementation should be fairly straightforward, just replace `*posix-argv*` and `exit` with their equivalent.  
+Making BCBFBL work with a different Common Lisp implementation should be fairly straightforward, just replace `*posix-argv*` and `exit` with their equivalent.
+
 To create a static standalone binary:  
 ```
-$ make static
+make static
 ```
 Though this isn't recommended, as the resulting executable will probably be around 50 MB in size due to including the entire SBCL runtime.
 
