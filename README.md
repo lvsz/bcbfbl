@@ -5,18 +5,17 @@ Another thing common in brainfuck interpreters, is that they limit both tape and
 
 ## Code
 ```Lisp
-(defmacro !(&rest b)`(cons(lambda(),@b)(f))
-)(defmacro ?()'(aref _ ^)); by Levi Siuzdak
-(let((_(make-array 30000))(^ 0)(~(open(cadr
-*posix-argv*))))(defun b(f)(mapc #'(lambda(
-f)(typecase f(function(funcall f))(cons(if(
->(?)0)(b f)))))f)(if(>(?)0)(b f)))(defun f(
-)(case(read-char ~'())(#\>(!(incf ^)))(#\.(
-!(princ(code-char(?)))(force-output)))(#\,(
-!(setf(?)(char-code(read-char'()'()#\U0))))
-)(#\+(!(incf(?))))(#\<(!(decf ^)))(#\[(cons
-(f)(f)))(#\]'())('()`(,#'exit))(#\-(!(decf(
-?))))(t(f))))(b(f)))
+(macrolet((!(&rest b)`(; by Levi Siuzdak - 2016
+cons(lambda(),@b)(f)))(?()'(aref _ ^)))(let((~(
+open(cadr *posix-argv*)))(_(make-array 30000))(
+^ 0))(defun f()(case(read-char ~'())(#\+(!(incf
+(?))))(#\>(!(incf ^)))(#\,(!(setf(?)(char-code(
+read-char'()'()#\U0)))))(#\.(!(princ(code-char(
+?)))(force-output)))(#\<(!(decf ^)))(#\[(cons(f
+)(f)))(#\]'())('()`(,#'exit))(#\-(!(decf(?))))(
+t(f))))(defun b(f)(mapc #'(lambda(f)(typecase f
+(function(funcall f))(cons(if(>(?)0)(b f)))))f)
+(if(>(?)0)(b f)))(b(f))))
 ```
 There are two other versions included that are semantically identical, but easier on the eyes. One just has sensible indentation, the other also has sensible variable names and no unhygienic macros.
 

@@ -10,6 +10,6 @@ bf: bf.lisp
 .PHONY: static
 static: bf.lisp
 	sbcl $(STACK) $(FLAGS) \
-		 --eval "`echo '(defun main ()' && perl -pe 's/def(macro)([^;]+)/\1let((\2)/' bf.lisp && echo '))'`" \
+		 --eval "`echo '(defun main ()' && cat bf.lisp && echo ')'`" \
 		 --eval "(save-lisp-and-die \"bf\" :toplevel 'main :executable t :save-runtime-options t)"
 
