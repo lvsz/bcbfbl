@@ -4,7 +4,7 @@ What's unique about it, is the way it interprets brainfuck commands, more specif
 Another thing common in brainfuck interpreters, is that they limit both tape and cell sizes, which means they're actually finite state machines. BCBFBL on the other hand has unbounded cell sizes, making it a true Turing tarpit.
 
 ## Code
-```Common Lisp
+```Lisp
 (defmacro !(&rest b)`(cons(lambda(),@b)(f)))
 (let((b(make-array 30000))(f 0) ;; Levi Siuzdak - 2016
 (~(open(cadr *posix-argv*))))(defun ?()(aref b f))(defun
@@ -17,6 +17,7 @@ b(f)(mapc #'(lambda(f)(typecase f(function(funcall f))
 (cons(f)(f)))(#\]'())('()`(,#'exit))(t(f))))(b(f)))
 ```
 There are two other versions included that are semantically identical, but easier on the eyes. One just has sensible indentation, the other also has sensible variable names and no unhygienic macros.
+
 ## Usage
 ```
 $ make
