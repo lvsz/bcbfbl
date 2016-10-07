@@ -24,8 +24,8 @@ $ make
 $ ./bf tests/hello-word.b
 $ ./bf tests/cat.b < bf.lisp
 ```
-It assumes you have [SBCL](http://www.sbcl.org) installed, and compiles to bytecode by default.  
-Making it work with a different Common Lisp implementation should be fairly straightforward, just replace `*posix-argv*` and `exit` with their equivalent.  
+This assumes you have [SBCL](http://www.sbcl.org) installed, and compiles to bytecode by default.  
+Making BCBFBL work with a different Common Lisp implementation should be fairly straightforward, just replace `*posix-argv*` and `exit` with their equivalent.  
 To create a static standalone binary:  
 ```
 $ make static
@@ -33,6 +33,6 @@ $ make static
 Though this isn't recommended, as the resulting executable will probably be around 50 MB in size due to including the entire SBCL runtime.
 
 ## Limitations
-BCBFBL should work for any brainfuck program that doesn't rely on cell wrap or negative tape indices.  
-Output happens through UTF-8 code points, rather than bytes, i.e. to print a multibyte character like `€`, use `.` once on a value of 8364, instead of thrice on the values 226, 130, and 172. This has no effect on programs that only print ASCII characters.  
-The default stack size is 512 MB, this should be enough for any actual brainfuck file out there, but if it isn't, adjust the `STACK` variable in Makefile, and let me know I'm wrong.
+- BCBFBL should work for any brainfuck program that doesn't rely on cell wrap or negative tape indices.  
+- Output happens through UTF-8 code points rather than bytes, i.e. to print a multibyte character like `€`, use `.` once on a value of 8364, instead of thrice on the values 226, 130, and 172. This has no effect on programs that only print ASCII characters.  
+- The default stack size is 512 MB, this should be enough for any actual brainfuck file out there, but if it isn't, adjust the `STACK` variable in Makefile, and let me know I'm wrong.
