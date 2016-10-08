@@ -5,19 +5,6 @@
   (defun current ()
     (aref tape pointer))
 
-  (defun eval-cmd (cmd)
-    (typecase cmd
-      (function
-        (funcall cmd))
-      (cons
-        (unless (zerop (current))
-          (eval-bf cmd)))))
-
-  (defun eval-bf (commands)
-    (mapc #'eval-cmd commands)
-    (unless (zerop (current))
-      (eval-bf commands)))
-
   (defun read-source ()
     (case (read-char source-file nil :eof)
       (#\< (cons (lambda ()
@@ -45,6 +32,17 @@
       (#\] '())
       (:eof (cons #'exit '()))
       (t (read-source))))
+
+  (defun eval-cmd (cmd)
+    (if (consp cmd)
+      (when (> (current) 0)
+        (eval-bf cmd))
+      (funcall cmd)))
+
+  (defun eval-bf (commands)
+    (mapc #'eval-cmd commands)
+    (when (> (current) 0)
+      (eval-bf commands)))
 
   (eval-bf (read-source)))
 
