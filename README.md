@@ -1,5 +1,5 @@
 ## About BCBFBL
-Business BrainFuck Based on Lisp lists is a 495 byte brainfuck interpreter written in Common Lisp, and inspired by Krzysztof Gabis' [Business Card Brainfuck](https://github.com/kgabis/business-card-brainfuck).  
+Business Card BrainFuck Based on Lisp lists is a 495 byte brainfuck interpreter written in Common Lisp, and inspired by Krzysztof Gabis' [Business Card Brainfuck](https://github.com/kgabis/business-card-brainfuck).  
 Its most unique feature is the way it handles brainfuck's `[` and `]` commands. Every brainfuck compiler or interpreter I've seen so far either backtracks or jumps to the matching bracket. Instead, BCBFBL uses these to transform brainfuck code to nested lists of lambdas, which recursively get mapped with `funcall`. This method can make it slightly faster for certain programs – e.g. [the Mandelbrot set](http://esoteric.sange.fi/brainfuck/utils/mandelbrot/mandelbrot.b) – than other non-optimizing interpreters written C and the like, despite using arbitrary precision arithmetic – though this could be disabled with some extra code.
 
 ## Code
