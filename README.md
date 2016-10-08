@@ -1,21 +1,21 @@
 ## About BCBFBL
-Business BrainFuck Based on Lisp lists is a brainfuck interpreter written in Common Lisp, and inspired by Krzysztof Gabis' [Business Card Brainfuck](https://github.com/kgabis/business-card-brainfuck).  
-What's unique about it, is the way it interprets brainfuck commands, more specifically `[` and `]`. All brainfuck compilers and interpreters I've seen so far either backtrack or jump to the matching bracket. Instead, BCBFBL transforms brainfuck code to nested lists of lambdas, which recursively get mapped with `funcall`, this can make it slightly faster for certain programs – like [the Mandelbrot set](http://esoteric.sange.fi/brainfuck/utils/mandelbrot/mandelbrot.b) – than other non-optimizing interpreters.  
-Another thing common in brainfuck interpreters, is that they limit both tape and cell sizes, which means they're actually finite state machines. BCBFBL on the other hand has unbounded cell sizes, making it a true Turing tarpit.
+Business BrainFuck Based on Lisp lists is a 492 byte brainfuck interpreter written in Common Lisp, and inspired by Krzysztof Gabis' [Business Card Brainfuck](https://github.com/kgabis/business-card-brainfuck).  
+Its most unusual feature is the way it handles brainfuck's `[` and `]` commands. Every brainfuck compiler or interpreter I've seen so far either backtracks or jumps to the matching bracket. Instead, BCBFBL uses these to transform brainfuck code to nested lists of lambdas, which recursively get mapped with `funcall`. This method can make it slightly faster for certain programs – e.g. [the Mandelbrot set](http://esoteric.sange.fi/brainfuck/utils/mandelbrot/mandelbrot.b) – than other non-optimizing interpreters written C, despite using arbitrary precision arithmetic – though this could be disabled with some extra code.
 
 ## Code
 ```Lisp
-(macrolet((!(&rest b)`(; by Levi Siuzdak - 2016
-cons(lambda(),@b)(f)))(?()'(aref _ ^)))(let((~(
-open(cadr *posix-argv*)))(_(make-array 30000))(
-^ 0))(defun f()(case(read-char ~'())(#\+(!(incf
-(?))))(#\>(!(incf ^)))(#\,(!(setf(?)(char-code(
-read-char'()'()#\U0)))))(#\.(!(princ(code-char(
-?)))(force-output)))(#\<(!(decf ^)))(#\[(cons(f
-)(f)))(#\]'())('()`(,#'exit))(#\-(!(decf(?))))(
-t(f))))(defun b(f)(mapc #'(lambda(f)(typecase f
-(function(funcall f))(cons(if(>(?)0)(b f)))))f)
-(if(>(?)0)(b f)))(b(f))))
+(macrolet((!(&rest b)`(cons(lambda(),@b)
+(f)))(?()'(aref _ ^)))(let((^ 0)(~(open(
+cadr *posix-argv*)))(_(make-array 30000)
+))(defun f()(case(read-char ~'())(#\+(!(
+incf(?))))(#\>(!(incf ^)))(#\,(!(setf(?)
+(char-code(read-char'()'()#\U0)))))(#\<(
+!(decf ^)))(#\[(cons(f)(f)))(#\.(!(princ
+(code-char(?)))(force-output)))(#\]'())(
+'()`(,#'exit))(#\-(!(decf(?))))(t(f))))(
+defun b(f)(mapc #'(lambda(f)(typecase f(
+function(funcall f))(cons(if(>(?)0)(b f)
+))))f)(if(>(?)0)(b f)))(b(f)))); by lvsz
 ```
 There are two other versions included that are semantically identical, but easier on the eyes. One just has sensible indentation, the other also has sensible variable names and no unhygienic macros.
 
@@ -36,5 +36,5 @@ Though this isn't recommended, as the resulting executable will probably be arou
 
 ## Limitations
 - BCBFBL should work for any brainfuck program that doesn't rely on cell wrap or negative tape indices.  
-- Output happens through UTF-8 code points rather than bytes, i.e. to print a multibyte character like `€`, use `.` once on a value of 8364, instead of thrice on the values 226, 130, and 172. This has no effect on programs that only print ASCII characters.  
-- The default stack size is 512 MB, this should be enough for any actual brainfuck file out there, but if it isn't, adjust the `STACK` variable in Makefile, and let me know I'm wrong.
+- Output happens through UTF-8 code points rather than bytes, i.e. to print a multibyte character like `€`, use `.` on its UTF-8 code point (8364), instead of its individual bytes (226, 130, and 172). This has no effect on programs that only print ASCII characters.  
+- The default stack size is 512 MB, this should be enough for any actual brainfuck file out there, but if it isn't, adjust the `STACK` variable in the make file, and let me know I'm wrong.

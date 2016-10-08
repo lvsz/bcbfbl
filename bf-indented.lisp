@@ -3,18 +3,18 @@
            (? ()
               '(aref _ ^)))
 
-  (let ((~ (open (cadr *posix-argv*)))
-        (_ (make-array 30000))
-        (^ 0))
+  (let ((^ 0)
+        (~ (open (cadr *posix-argv*)))
+        (_ (make-array 30000)))
 
     (defun f ()
       (case (read-char ~ '())
         (#\+ (! (incf (?))))
         (#\> (! (incf ^)))
         (#\, (! (setf (?) (char-code (read-char '() '() #\U0)))))
-        (#\. (! (princ (code-char (?))) (force-output)))
         (#\< (! (decf ^)))
         (#\[ (cons (f) (f)))
+        (#\. (! (princ (code-char (?))) (force-output)))
         (#\] '())
         ('() `(,#'exit))
         (#\- (! (decf (?))))
@@ -31,3 +31,6 @@
         (b f)))
 
     (b (f))))
+
+; by lvsz
+
