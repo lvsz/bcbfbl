@@ -1,4 +1,4 @@
-(let ((+(open (cadr *posix-argv*)))
+(let ((+ (open (cadr *posix-argv*)))
       ($ (make-array 30000))
       (^ 0))
 
@@ -26,8 +26,8 @@
         (#\- (! (decf (?))))
         ('nil `(,#'exit))
         (#\] '())
-        (#\,(! (force-output)
-               (setf (?) (char-code (read-char '() '() #\U0)))))
+        (#\, (! (force-output)
+                (setf (?) (char-code (read-char '() '() #\U0)))))
         (#\< (! (decf ^)))
         (t (f))))
 
